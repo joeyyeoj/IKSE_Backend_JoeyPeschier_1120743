@@ -37,12 +37,14 @@ class AuthController extends Controller
                     $validator->validated(),
                     ['password' => bcrypt($request->password)]
                 ));
+        
 
+        $newUser = User::find($user->id);
         $token = JWTAuth::fromUser($user);
 
         return response()->json([
             'message' => 'User successfully registered',
-            'user' => $user,
+            'user' => $newUser,
             'token' => $token,
             'expires_in' => 3600
         ], 201);

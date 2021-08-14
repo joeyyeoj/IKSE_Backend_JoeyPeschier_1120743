@@ -25,6 +25,10 @@ Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
     Route::post('me', 'AuthController@me');
 });
 
+Route::group(['middleware' => 'jwt.verify'], function ($router){
+    Route::post('product/create', [\App\Http\Controllers\ProductController::class, 'create']);
+});
+
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
