@@ -21,10 +21,12 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next)
     {
         $user = auth()->user();
-
-        if($user->admin){
-            return $next($request);
+        if($user){
+            if($user->admin){
+                return $next($request);
+            }
+            return response()->json(['error' => 'Je bent geen admin!'], 405);
         }
-        return response()->json(['error' => 'Je bent geen admin!'], 401);
+        return response()->json(['error' => 'Invalid token'], 401);
     }
 }
