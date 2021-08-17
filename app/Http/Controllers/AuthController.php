@@ -20,6 +20,31 @@ class AuthController extends Controller
     {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
+
+
+    public function update(Request $request){
+        $user = auth()->user();
+        if($user){
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|between:2,100',
+                'email' => 'required|string|email|max:100|unique:users,email,' . $user->id,
+            ]);
+    
+            if($validator->fails()){
+                return response()->json($validator->errors()->toJson(), 400);
+            }
+
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->save();
+            return response()->json([
+                'message' => 'User successfully updated!'
+            ]);
+        }
+        return response()->json([
+            'message' => 'Invalid token'
+        ]);
+    }
     
 
     public function register(Request $request) {
