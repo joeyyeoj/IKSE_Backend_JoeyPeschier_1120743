@@ -31,6 +31,7 @@ Route::group(['middleware' => 'admin', 'jwt.verify', ], function ($router){
 
 Route::group(['middleware' => 'jwt.verify'], function ($router){
     Route::put('user/update', [\App\Http\Controllers\AuthController::class, 'update']);
+    Route::delete('user/delete', [\App\Http\Controllers\AuthController::class, 'delete']);
 });
 
 

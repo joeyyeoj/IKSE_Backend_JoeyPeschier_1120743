@@ -38,12 +38,26 @@ class AuthController extends Controller
             $user->email = $request->email;
             $user->save();
             return response()->json([
-                'message' => 'User successfully updated!'
+                'message' => 'User successfully updated!',
+                'user' => $user
             ]);
         }
         return response()->json([
             'message' => 'Invalid token'
         ]);
+    }
+
+    public function delete(Request $request){
+        $user = auth()->user();
+        if($user){
+            $user->delete();
+            return response()->json([
+                'message' => 'User successfully deleted!'
+            ]);
+        }
+        return response()->json([
+            'message' => 'Invalid token'
+        ]); 
     }
     
 
